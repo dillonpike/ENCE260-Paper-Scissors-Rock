@@ -32,7 +32,7 @@ int choice_cycle (char** choices, int length)
 {
     int current_choice = 0;
 
-    while (1)
+    while (!navswitch_push_event_p(NAVSWITCH_PUSH))
     {
         pacer_wait ();
         tinygl_update ();
@@ -42,4 +42,5 @@ int choice_cycle (char** choices, int length)
 
         tinygl_text (choices[current_choice]);
     }
+    return current_choice;
 }
