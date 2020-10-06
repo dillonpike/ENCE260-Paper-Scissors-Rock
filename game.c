@@ -68,7 +68,7 @@ int main (void)
 
     char* characters[3] = {"P", "S", "R"};
     int current_char = 0;
-    run_start_screen ();
+    run_start_screen ()
     //tinygl_text_mode_set (TINYGL_TEXT_MODE_STEP);
 
     while (1)
