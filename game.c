@@ -26,12 +26,12 @@ static void display_message (char* message)
 static void run_start_screen (void)
 {
     display_message("Push to Start");
-
     // Displays message until navswitch has been pushed
-    while (!(navswitch_push_event_p (NAVSWITCH_PUSH)))
+    while (!navswitch_push_event_p (NAVSWITCH_PUSH))
     {
         pacer_wait ();
         tinygl_update ();
+        navswitch_update ();
     }
 
 }
@@ -73,8 +73,8 @@ int main (void)
 
     while (1)
     {
-        tinygl_update();
-        navswitch_update();
+        tinygl_update ();
+        navswitch_update ();
 
         current_char = change_character (current_char);
         tinygl_text (characters[current_char]);
