@@ -14,5 +14,5 @@ void run_intro (char* message)
         navswitch_update ();
     }
 
-    tinygl_text_mode_set (TINYGL_TEXT_MODE_STEP);
+    //tinygl_text_mode_set (TINYGL_TEXT_MODE_STEP);
 }
