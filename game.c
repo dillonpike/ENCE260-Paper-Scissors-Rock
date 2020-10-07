@@ -7,11 +7,17 @@
 #include "../fonts/font5x7_1.h"
 #include "intro.h"
 #include "choice.h"
+#include "ledmat.h"
+#include "icons.h"
 
 #define DISPLAY_TASK_RATE 250
 #define PACER_RATE 250
 #define MESSAGE_SPEED 20
 #define INTRO_MESSAGE "Push to start"
+
+
+
+
 
 static void display_task_init (void)
 {
@@ -23,6 +29,7 @@ static void display_task_init (void)
 
 static void initialise_game(int pacer_rate)
 {
+    ledmat_init();
     ir_uart_init();
     system_init();
     display_task_init();
@@ -34,7 +41,9 @@ static void initialise_game(int pacer_rate)
 int main (void)
 {
     initialise_game(PACER_RATE);
+    //display_bitmap(paper);
     char choices[3] = {'P', 'S', 'R'};
+    icon_t icons_array[3] = {PAPER_ICON, SCISSORS_ICON, ROCK_ICON};
     int choice_index = 0;
     run_intro (INTRO_MESSAGE);
 

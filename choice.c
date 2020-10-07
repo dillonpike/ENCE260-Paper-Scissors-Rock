@@ -1,14 +1,18 @@
 #include "pacer.h"
 #include "tinygl.h"
 #include "navswitch.h"
+#include "icons.h"
+#include "button.h"
 
 
-static void display_choice (char* choices, int choice)
+static void display_choice (char* choices, int choice, icon_t[] icon_array)
 {
-    char buffer[2] = {0};
-    buffer[0] = choices[choice];
-    buffer[1] = '\0';
-    tinygl_text (buffer);
+    display_bitmap(icon_array[choice])
+    // char buffer[2] = {0};
+    // buffer[0] = choices[choice];
+    // buffer[1] = '\0';
+    // tinygl_text (buffer);
+    
 }
 
 
