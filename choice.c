@@ -3,9 +3,18 @@
 #include "navswitch.h"
 
 
+static void display_choice (char* choices, int choice)
+{
+    char buffer[2] = {0};
+    buffer[0] = choices[choice];
+    buffer[1] = '\0';
+    tinygl_text (buffer);
+}
+
+
 /** Updates value of choice depending on which way navswitch
     has been pushed.  */
-int update_choice (int choice, int length)
+static int update_choice (int choice, int length)
 {
     if (navswitch_push_event_p (NAVSWITCH_NORTH))
     {
@@ -26,9 +35,10 @@ int update_choice (int choice, int length)
     return choice;
 }
 
+
 /** Loops through checking to see if the player has updated their
     choice and displaying their current choice.  */
-int choice_cycle (char** choices, int length)
+int choice_cycle (char* choices, int length)
 {
     int current_choice = 0;
 
@@ -40,7 +50,7 @@ int choice_cycle (char** choices, int length)
 
         current_choice = update_choice (current_choice, length);
 
-        tinygl_text (choices[current_choice]);
+        display_choice(choices, current_choice);
     }
     return current_choice;
 }

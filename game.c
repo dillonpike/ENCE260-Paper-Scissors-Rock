@@ -33,20 +33,19 @@ static void initialise_game(int pacer_rate)
 int main (void)
 {
     initialise_game(PACER_RATE);
-    char* choices[3] = {"P", "S", "R"}; //possibly make this char array?
-
+    char choices[3] = {'P', 'S', 'R'};
+    int choice_index = 0;
     run_intro (INTRO_MESSAGE);
-    
-    
-    //choice_index++;
-    
+
     while (1)
     {
         pacer_wait ();
         tinygl_update ();
         navswitch_update ();
-        int choice_index = choice_cycle(choices, 3);
-        ir_uart_putc_nocheck(choices[choice_index][0]); // change from nocheck later
+
+        choice_index = choice_cycle(choices, 3);
+
+        ir_uart_putc(choices[choice_index]);
         pio_output_high(LED1_PIO);
         tinygl_text("sending...");
         while (ir_uart_read_ready_p() == 0) {
@@ -55,9 +54,9 @@ int main (void)
         }
         pio_output_low(LED1_PIO);
         char received_char = ir_uart_getc();
-        if (received_char == choices[choice_index][0]) {
+        if (received_char == choices[choice_index]) {
             tinygl_text("tie");
         }
-        
+
     }
 }
