@@ -23,6 +23,7 @@ static void display_task_init (void)
 
 static void initialise_game(int pacer_rate)
 {
+    ir_uart_init();
     system_init();
     display_task_init();
     navswitch_init();
@@ -48,7 +49,7 @@ int main (void)
         ir_uart_putc(choices[choice_index]);
         pio_output_high(LED1_PIO);
         tinygl_text("sending...");
-        while (ir_uart_read_ready_p() == 0) {
+        while (!ir_uart_read_ready_p()) {
             pacer_wait();
             tinygl_update();
         }
