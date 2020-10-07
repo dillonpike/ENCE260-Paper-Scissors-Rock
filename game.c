@@ -10,7 +10,7 @@
 
 #define DISPLAY_TASK_RATE 250
 #define PACER_RATE 250
-#define MESSAGE_SPEED 30
+#define MESSAGE_SPEED 20
 #define INTRO_MESSAGE "Push to start"
 
 static void display_task_init (void)
@@ -64,15 +64,20 @@ int main (void)
         }
         navswitch_update();
         pio_output_low(LED1_PIO);
+        ir_uart_putc(choices[choice_index]);
         if (current_char == choices[choice_index]) {
-            pio_output_high(LED1_PIO);
             tinygl_text("tie");
-            while(!navswitch_push_event_p(NAVSWITCH_PUSH)) {
+            
+        } else if (((choices[choice_index] == 'R') && (current_char == 'S')) || ((choices[choice_index] == 'P') && (current_char == 'R')) || ((choices[choice_index] == 'S') && (current_char == 'P'))) {
+            tinygl_text("you win");
+        } else if (((choices[choice_index] == 'R') && (current_char == 'P')) || ((choices[choice_index] == 'P') && (current_char == 'S')) || ((choices[choice_index] == 'S') && (current_char == 'D'))) {
+            tinygl_text("you lose");
+        }
+            while (!navswitch_push_event_p(NAVSWITCH_PUSH))
+            {
                 pacer_wait();
                 tinygl_update();
                 navswitch_update();
             }
-        }
-
     }
 }
