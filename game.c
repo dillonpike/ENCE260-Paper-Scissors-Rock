@@ -47,11 +47,20 @@ int main (void)
         choice_index = choice_cycle(choices, 3);
 
         ir_uart_putc(choices[choice_index]);
+        while(ir_uart_read_ready_p()) { //reads echoed bytes
+            ir_uart_getc();
+        }
         pio_output_high(LED1_PIO);
         tinygl_text("sending...");
-        while (!ir_uart_read_ready_p()) {
+        char current_char = '\0';
+        while ((current_char != 'R') && (current_char != 'P') && (current_char != 'S'))
+        {
             pacer_wait();
             tinygl_update();
+            if(ir_uart_read_ready_p()) {
+                current_char = ir_uart_getc();
+            }
+            
         }
         pio_output_low(LED1_PIO);
         char received_char = ir_uart_getc();
