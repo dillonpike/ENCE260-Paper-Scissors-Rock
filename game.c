@@ -62,10 +62,16 @@ int main (void)
             }
             
         }
+        navswitch_update();
         pio_output_low(LED1_PIO);
-        char received_char = ir_uart_getc();
-        if (received_char == choices[choice_index]) {
+        if (current_char == choices[choice_index]) {
+            pio_output_high(LED1_PIO);
             tinygl_text("tie");
+            while(!navswitch_push_event_p(NAVSWITCH_PUSH)) {
+                pacer_wait();
+                tinygl_update();
+                navswitch_update();
+            }
         }
 
     }
