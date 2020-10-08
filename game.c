@@ -15,13 +15,12 @@
 #include "choice.h"
 #include "ledmat.h"
 #include "icons.h"
+#include "transmission.h"
 
 #define DISPLAY_TASK_RATE 250
 #define PACER_RATE 250
 #define MESSAGE_SPEED 20
 #define INTRO_MESSAGE "Push to start"
-
-
 
 
 static void display_task_init (void)
@@ -62,38 +61,26 @@ int main (void)
 
         choice_index = choice_cycle(choices, 3, icons_array);
 
-        ir_uart_putc(choices[choice_index]);
-        while(ir_uart_read_ready_p()) { //reads echoed bytes
-            ir_uart_getc();
-        }
         pio_output_high(LED1_PIO);
-        tinygl_text("sending...");
-        char current_char = '\0';
-        while ((current_char != 'R') && (current_char != 'P') && (current_char != 'S'))
-        {
-            pacer_wait();
-            tinygl_update();
-            if(ir_uart_read_ready_p()) {
-                current_char = ir_uart_getc();
-            }
-            
-        }
-        navswitch_update();
+        send_choice (choices, choice_index);
+        char current_char = receive_choice ();
         pio_output_low(LED1_PIO);
+
+        navswitch_update();
         ir_uart_putc(choices[choice_index]);
         if (current_char == choices[choice_index]) {
             tinygl_text("tie");
-            
+
         } else if (((choices[choice_index] == 'R') && (current_char == 'S')) || ((choices[choice_index] == 'P') && (current_char == 'R')) || ((choices[choice_index] == 'S') && (current_char == 'P'))) {
             tinygl_text("you win");
         } else if (((choices[choice_index] == 'R') && (current_char == 'P')) || ((choices[choice_index] == 'P') && (current_char == 'S')) || ((choices[choice_index] == 'S') && (current_char == 'D'))) {
             tinygl_text("you lose");
         }
-            while (!navswitch_push_event_p(NAVSWITCH_PUSH))
-            {
-                pacer_wait();
-                tinygl_update();
-                navswitch_update();
-            }
+        while (!navswitch_push_event_p(NAVSWITCH_PUSH))
+        {
+            pacer_wait();
+            tinygl_update();
+            navswitch_update();
+        }
     }
 }

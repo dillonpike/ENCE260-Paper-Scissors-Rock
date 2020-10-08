@@ -67,11 +67,14 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 icons.o: icons.c ../../drivers/ledmat.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
+transmission.o: transmission.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/avr/ir_uart.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # ledmat: ../../ ../../drivers/avr/system.h ../../drivers/display.h ../../utils/font.h ../../utils/tinygl.h
 # 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o ir_uart.o usart1.o system.o pio.o prescale.o timer.o timer0.o display.o ledmat.o navswitch.o font.o pacer.o tinygl.o intro.o choice.o icons.o
+game.out: game.o ir_uart.o usart1.o system.o pio.o prescale.o timer.o timer0.o display.o ledmat.o navswitch.o font.o pacer.o tinygl.o intro.o choice.o icons.o transmission.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
