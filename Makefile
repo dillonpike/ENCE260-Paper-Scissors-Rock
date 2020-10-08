@@ -16,7 +16,7 @@ all: game.out
 
 
 # Compile: create object files from C source files. Add to game.o line.
-game.o: game.c ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h intro.h choice.h icons.h transmission.o
+game.o: game.c ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h intro.h choice.h icons.h transmission.o result.o
 	$(CC) -c $(CFLAGS) $< -o $@
 
 intro.o: intro.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h
@@ -70,11 +70,14 @@ icons.o: icons.c ../../drivers/ledmat.c
 transmission.o: transmission.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/avr/ir_uart.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+result.o: result.c ../../utils/tinygl.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # ledmat: ../../ ../../drivers/avr/system.h ../../drivers/display.h ../../utils/font.h ../../utils/tinygl.h
 # 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o ir_uart.o usart1.o system.o pio.o prescale.o timer.o timer0.o display.o ledmat.o navswitch.o font.o pacer.o tinygl.o intro.o choice.o icons.o transmission.o
+game.out: game.o ir_uart.o usart1.o system.o pio.o prescale.o timer.o timer0.o display.o ledmat.o navswitch.o font.o pacer.o tinygl.o intro.o choice.o icons.o transmission.o result.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

@@ -16,6 +16,7 @@
 #include "ledmat.h"
 #include "icons.h"
 #include "transmission.h"
+#include "result.h"
 
 #define DISPLAY_TASK_RATE 250
 #define PACER_RATE 250
@@ -63,19 +64,14 @@ int main (void)
 
         pio_output_high(LED1_PIO);
         send_choice (choices, choice_index);
-        char current_char = receive_choice ();
+        char received_char = receive_choice ();
         pio_output_low(LED1_PIO);
 
         navswitch_update();
         ir_uart_putc(choices[choice_index]);
-        if (current_char == choices[choice_index]) {
-            tinygl_text("tie");
 
-        } else if (((choices[choice_index] == 'R') && (current_char == 'S')) || ((choices[choice_index] == 'P') && (current_char == 'R')) || ((choices[choice_index] == 'S') && (current_char == 'P'))) {
-            tinygl_text("you win");
-        } else if (((choices[choice_index] == 'R') && (current_char == 'P')) || ((choices[choice_index] == 'P') && (current_char == 'S')) || ((choices[choice_index] == 'S') && (current_char == 'D'))) {
-            tinygl_text("you lose");
-        }
+        int result = get_result(choices[choice_index], received_char);
+
         while (!navswitch_push_event_p(NAVSWITCH_PUSH))
         {
             pacer_wait();
