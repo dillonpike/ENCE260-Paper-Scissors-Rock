@@ -12,13 +12,24 @@
 
 typedef uint8_t icon_t[5];
 
+static icon_t current_bitmap = PAPER_ICON;
+static int current_col = 0;
+
 /** displays bitmap image on LED matrix.
     @param bitmap 5x7 bitmap image to be displayed  */
 void display_bitmap(icon_t bitmap)
 {
-    for (int i = 0; i < 5; i++)
-    {
-        ledmat_display_column(bitmap[i], i);
+    current_col = 0;
+    for(int i = 0; i < 5; i++) {
+        current_bitmap[i] = bitmap[i];
     }
+    
+    
 }
 
+void update_bitmap(void) {
+
+    ledmat_display_column(current_bitmap[current_col], current_col);
+    current_col++;
+    current_col = current_col % 5;
+}
