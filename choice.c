@@ -1,14 +1,25 @@
+/** @file   choice.c
+    @author Bailey Lissington, Dillon Pike
+    @date   08 Nov 2020
+    @brief  Code corresponding to the choosing of rock, paper, scissors objects.
+*/
+
+
 #include "pacer.h"
 #include "tinygl.h"
 #include "navswitch.h"
+#include "icons.h"
+#include "button.h"
 
-
-static void display_choice (char* choices, int choice)
+static void display_choice(char *choices, int choice, icon_t icon_array[])
 {
-    char buffer[2] = {0};
-    buffer[0] = choices[choice];
-    buffer[1] = '\0';
-    tinygl_text (buffer);
+    display_bitmap(icon_array[choice]);
+    choices = choices;
+    // char buffer[2] = {0};
+    // buffer[0] = choices[choice];
+    // buffer[1] = '\0';
+    // tinygl_text (buffer);
+
 }
 
 
@@ -38,19 +49,19 @@ static int update_choice (int choice, int length)
 
 /** Loops through checking to see if the player has updated their
     choice and displaying their current choice.  */
-int choice_cycle (char* choices, int length)
+int choice_cycle (char* choices, int length, icon_t icon_array[])
 {
     int current_choice = 0;
 
     while (!navswitch_push_event_p(NAVSWITCH_PUSH))
     {
         pacer_wait ();
-        tinygl_update ();
+        // tinygl_update ();
         navswitch_update ();
 
         current_choice = update_choice (current_choice, length);
 
-        display_choice(choices, current_choice);
+        display_choice(choices, current_choice, icon_array);
     }
     return current_choice;
 }
