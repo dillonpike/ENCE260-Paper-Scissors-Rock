@@ -9,6 +9,7 @@
 #define CHOOSE_H
 
 #include "icons.h"
+#include "button.h"
 
 /** Updates value of choice depending on which way navswitch
     has been pushed.  */

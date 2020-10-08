@@ -15,6 +15,7 @@
 #include "choice.h"
 #include "ledmat.h"
 #include "icons.h"
+#include "button.h"
 
 #define DISPLAY_TASK_RATE 250
 #define PACER_RATE 250
@@ -36,6 +37,7 @@ static void display_task_init (void)
     @param pacer_rate rate of pacer in Hz  */
 static void initialise_game(int pacer_rate)
 {
+    button_init();
     ledmat_init();
     ir_uart_init();
     system_init();
