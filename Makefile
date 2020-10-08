@@ -1,7 +1,7 @@
 # File:   Makefile
-# Author: M. P. Hayes, UCECE
-# Date:   12 Sep 2010
-# Descr:  Makefile for game
+# Author: Bailey Lissington, Dillon Pike
+# Date:   08 Nov 2020
+# Descr:  Makefile for Paper, Scissors, Rock game
 
 # Definitions.
 CC = avr-gcc

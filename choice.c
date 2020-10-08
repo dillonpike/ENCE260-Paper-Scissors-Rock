@@ -14,7 +14,7 @@
 static void display_choice(char *choices, int choice, icon_t icon_array[])
 {
     display_bitmap(icon_array[choice]);
-    choices = choices;
+    //choices = choices;
     // char buffer[2] = {0};
     // buffer[0] = choices[choice];
     // buffer[1] = '\0';
@@ -25,22 +25,24 @@ static void display_choice(char *choices, int choice, icon_t icon_array[])
 
 /** Updates value of choice depending on which way navswitch
     has been pushed.  */
-static int update_choice (int choice, int length)
+static int update_choice (int choice, int length, char* choices, icon_t icon_array[])
 {
     if (navswitch_push_event_p (NAVSWITCH_NORTH))
     {
         /** Increments choice and keeps it from 0 to 2. */
         choice = (choice + 1) % length;
+        display_choice(choices, choice, icon_array);
 
     } else if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
 
         /** Decrements current_char and keeps it from -2 to 2. */
         choice = (choice - 1) % length;
-
+        
         /** Adds 3 to current_char if it's negative. */
         if (choice < 0) {
             choice += length;
         }
+        display_choice(choices, choice, icon_array);
     }
 
     return choice;
@@ -58,10 +60,9 @@ int choice_cycle (char* choices, int length, icon_t icon_array[])
         pacer_wait ();
         // tinygl_update ();
         navswitch_update ();
+        update_bitmap();
+        current_choice = update_choice (current_choice, length, choices, icon_array);
 
-        current_choice = update_choice (current_choice, length);
-
-        display_choice(choices, current_choice, icon_array);
     }
     return current_choice;
 }

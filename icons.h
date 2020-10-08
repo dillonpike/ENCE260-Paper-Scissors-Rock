@@ -18,4 +18,6 @@ typedef uint8_t icon_t[5];
     @param bitmap 5x7 bitmap image to be displayed  */
 void display_bitmap(icon_t bitmap);
 
+void update_bitmap(void);
+
 #endif
