@@ -11,8 +11,16 @@
 #include "icons.h"
 #include "button.h"
 
+static int button_pressed = 0;
+
 static void display_choice(char *choices, int choice, icon_t icon_array[])
 {
+    if (button_pressed) {
+        char buffer[2] = {0};
+        buffer[0] = choices[choice];
+        buffer[1] = '\0';
+        tinygl_text(buffer);
+    }
     display_bitmap(icon_array[choice]);
     //choices = choices;
     // 
@@ -50,7 +58,7 @@ static int update_choice (int choice, int length, char* choices, icon_t icon_arr
     choice and displaying their current choice.  */
 int choice_cycle (char* choices, int length, icon_t icon_array[])
 {
-    static int button_pressed = 0;
+    
     int current_choice = 0;
 
     while (!navswitch_push_event_p(NAVSWITCH_PUSH))
