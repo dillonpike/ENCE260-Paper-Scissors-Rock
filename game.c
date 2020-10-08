@@ -50,7 +50,6 @@ static void initialise_game(int pacer_rate)
 int main (void)
 {
     initialise_game(PACER_RATE);
-    //display_bitmap(paper);
     char choices[3] = {'P', 'S', 'R'};
     icon_t icons_array[3] = {PAPER_ICON, SCISSORS_ICON, ROCK_ICON};
     int choice_index = 0;
@@ -61,9 +60,9 @@ int main (void)
         pacer_wait ();
         tinygl_update ();
         navswitch_update ();
-
+        tinygl_text_mode_set(TINYGL_TEXT_MODE_STEP);
         choice_index = choice_cycle(choices, 3, icons_array);
-
+        tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
         ir_uart_putc(choices[choice_index]);
         while(ir_uart_read_ready_p()) { //reads echoed bytes
             ir_uart_getc();
