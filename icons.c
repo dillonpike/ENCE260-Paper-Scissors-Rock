@@ -6,8 +6,8 @@
 
 #include "ledmat.h"
 
-#define ROCK_ICON {0x3F, 0x21, 0x41, 0x42, 0x7E}
-#define PAPER_ICON {0x3C, 0x42, 0x42, 0x44, 0x38}
+#define ROCK_ICON {0x3C, 0x42, 0x42, 0x44, 0x38}
+#define PAPER_ICON {0x3F, 0x21, 0x41, 0x42, 0x7E}
 #define SCISSORS_ICON {0x20, 0x57, 0x38, 0x57, 0x20}
 
 typedef uint8_t icon_t[5];
@@ -23,12 +23,12 @@ void display_bitmap(icon_t bitmap)
     for(int i = 0; i < 5; i++) {
         current_bitmap[i] = bitmap[i];
     }
-    
-    
+
+
 }
 
-void update_bitmap(void) {
-
+void update_bitmap(void)
+{
     ledmat_display_column(current_bitmap[current_col], current_col);
     current_col++;
     current_col = current_col % 5;
