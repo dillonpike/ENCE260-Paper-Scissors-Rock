@@ -1,3 +1,9 @@
+/** @file   game.c
+    @author Bailey Lissington, Dillon Pike
+    @date   08 Nov 2020
+    @brief  Code for a multiplayer Paper, Scissors, Rock game
+*/
+
 #include "system.h"
 #include "pio.h"
 #include "pacer.h"
@@ -18,7 +24,6 @@
 
 
 
-
 static void display_task_init (void)
 {
     tinygl_init (DISPLAY_TASK_RATE);
@@ -27,6 +32,8 @@ static void display_task_init (void)
     tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
 }
 
+/** Initialise the game.
+    @param pacer_rate rate of pacer in Hz  */
 static void initialise_game(int pacer_rate)
 {
     ledmat_init();
@@ -53,7 +60,7 @@ int main (void)
         tinygl_update ();
         navswitch_update ();
 
-        choice_index = choice_cycle(choices, 3);
+        choice_index = choice_cycle(choices, 3, icons_array);
 
         ir_uart_putc(choices[choice_index]);
         while(ir_uart_read_ready_p()) { //reads echoed bytes
