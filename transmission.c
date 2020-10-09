@@ -27,6 +27,7 @@ void send_choice (char* choices, int choice_index)
 {
     empty_buffer ();
     ir_uart_putc(choices[choice_index]);
+    tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
     tinygl_text("Sending...");
 }
 
@@ -41,8 +42,7 @@ char receive_choice (void)
         pacer_wait ();
         tinygl_update ();
 
-        if(ir_uart_read_ready_p ())
-        {
+        if(ir_uart_read_ready_p ()) {
             received_char = ir_uart_getc ();
         }
 

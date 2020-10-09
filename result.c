@@ -15,15 +15,15 @@
     @return defined number depending on result.  */
 int get_result(char choice, char opponent_choice)
 {
-    int result;
-
-    if (choice == opponent_choice)
-    {
+    int result = 0;
+    if (choice == opponent_choice) {
         tinygl_text("T");
         result = TIE;
+
     } else if (((choice == 'R') && (opponent_choice == 'S')) || ((choice == 'P') && (opponent_choice == 'R')) || ((choice == 'S') && (opponent_choice == 'P'))) {
         tinygl_text("W");
         result = WIN;
+
     } else if (((choice == 'R') && (opponent_choice == 'P')) || ((choice == 'P') && (opponent_choice == 'S')) || ((choice == 'S') && (opponent_choice == 'R'))) {
         tinygl_text("L");
         result = LOSE;

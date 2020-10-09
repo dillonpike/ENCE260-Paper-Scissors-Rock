@@ -19,7 +19,7 @@ static void display_choice(char *choices, int choice, icon_t icon_array[])
     // buffer[0] = choices[choice];
     // buffer[1] = '\0';
     // tinygl_text (buffer);
-    
+
 }
 
 
@@ -27,17 +27,15 @@ static void display_choice(char *choices, int choice, icon_t icon_array[])
     has been pushed.  */
 static int update_choice (int choice, int length, char* choices, icon_t icon_array[])
 {
-    if (navswitch_push_event_p (NAVSWITCH_NORTH))
-    {
+    if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
         /** Increments choice and keeps it from 0 to 2. */
         choice = (choice + 1) % length;
         display_choice(choices, choice, icon_array);
 
     } else if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
-
         /** Decrements current_char and keeps it from -2 to 2. */
         choice = (choice - 1) % length;
-        
+
         /** Adds 3 to current_char if it's negative. */
         if (choice < 0) {
             choice += length;
