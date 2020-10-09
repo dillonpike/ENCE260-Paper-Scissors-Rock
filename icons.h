@@ -21,5 +21,6 @@ void display_bitmap(icon_t bitmap);
 
 void update_bitmap(void);
 
+void reset_bitmap(void);
 
 #endif
