@@ -86,11 +86,9 @@ int main (void)
         pio_output_low(LED1_PIO);
         ir_uart_putc(choices[choice_index]);
         if (current_char == choices[choice_index]) {
-            if (button_push_event_p(BUTTON1)) {
-                if (icon_button_toggle_pressed()) {display_bitmap(tie_icon);}
-                else tinygl_text("TIE");
+                if (icon_button_toggle_pressed()) { tinygl_text("TIE");}
+                else display_bitmap(tie_icon);
                 toggle_icon_state();
-            }
         } else if (((choices[choice_index] == 'R') && (current_char == 'S')) || ((choices[choice_index] == 'P') && (current_char == 'R')) || ((choices[choice_index] == 'S') && (current_char == 'P'))) {
             if (button_push_event_p(BUTTON1)) {
                 if (icon_button_toggle_pressed()) {display_bitmap(trophy_icon);}
@@ -107,9 +105,14 @@ int main (void)
             while (!navswitch_push_event_p(NAVSWITCH_PUSH))
             {
                 pacer_wait();
-                if (icon_button_toggle_pressed()) {tinygl_update();}
+                if (icon_button_toggle_pressed()) {tinygl_update(); }
                 else {update_bitmap();}
                 navswitch_update();
+                button_update();    
+                if(button_push_event_p(BUTTON1)) {
+                    toggle_icon_state();
+                    tinygl_text("TIE");
+                }
             }
     }
 }

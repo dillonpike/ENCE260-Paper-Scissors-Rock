@@ -92,5 +92,5 @@ int icon_button_toggle_pressed(void) {
 }
 
 void toggle_icon_state(void) {
-    button_pressed != button_pressed;
+    button_pressed = !button_pressed;
 }
