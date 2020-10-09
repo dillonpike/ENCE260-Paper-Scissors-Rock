@@ -90,8 +90,13 @@ int main (void)
         ir_uart_putc(choices[choice_index]);
 
         int result = get_result(choices[choice_index], received_char);
+        wait_for_push();
+        pio_output_high(LED1_PIO);
+        pacer_wait();
+        print_results();
+        navswitch_update();
+        wait_for_push();
+        pio_output_low(LED1_PIO);
         tinygl_text_mode_set (TINYGL_TEXT_MODE_STEP);
-
-        wait_for_push ();
     }
 }

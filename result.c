@@ -36,3 +36,16 @@ int get_result(char choice, char opponent_choice)
 uint8_t get_wins() {
     return num_wins;
 }
+
+void print_results(void) {
+    char buffer[9] = "WINS: ";
+    if(num_wins > 9) {
+        buffer[6] = num_wins / 10 + 48;
+        buffer[7] = num_wins % 10 + 48;
+        buffer[8] = 0;
+    } else {
+        buffer[6] = num_wins + 48;
+        buffer[7] = 0;
+    }
+    tinygl_text(buffer);
+}

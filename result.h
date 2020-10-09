@@ -20,5 +20,6 @@
     @return defined number depending on result.  */
 int get_result(char choice, char received_choice);
 
+void print_results(void);
 
 #endif
