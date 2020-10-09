@@ -1,0 +1,19 @@
+Authors: Bailey Lissington, Dillon Pike
+Date: 09 Oct 2020
+
+Paper, Scissors, Rock Game
+
+Programmed to be played on a UC Fun Kit version 4.
+
+Push the navigation switch to make your choice of paper, scissors, or
+rock, and advance through the intro screen, match results, and score.
+
+Button 1 will also swap between displaying icons and letters to
+represent the paper, scissors, and rock options.
+
+To install, clone the folder with all of the necessary library modules
+into your preferred folder by entering the command
+"git clone https://eng-git.canterbury.ac.nz/rmc84/ence260-ucfk4.git"
+into the terminal. Then clone this repository into the assignment folder
+with the command
+"git clone https://eng-git.canterbury.ac.nz/ence260-2020/group-110".
