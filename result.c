@@ -8,6 +8,7 @@
 #include "tinygl.h"
 #include "result.h"
 
+static uint8_t num_wins = 0;
 
 /** Checks whether the player won, lost, or tied, and displays it.
     @param char of the player's choice.
@@ -23,10 +24,15 @@ int get_result(char choice, char opponent_choice)
     } else if (((choice == 'R') && (opponent_choice == 'S')) || ((choice == 'P') && (opponent_choice == 'R')) || ((choice == 'S') && (opponent_choice == 'P'))) {
         tinygl_text("W");
         result = WIN;
+        num_wins++;
 
     } else if (((choice == 'R') && (opponent_choice == 'P')) || ((choice == 'P') && (opponent_choice == 'S')) || ((choice == 'S') && (opponent_choice == 'R'))) {
         tinygl_text("L");
         result = LOSE;
     }
     return result;
+}
+
+uint8_t get_wins() {
+    return num_wins;
 }
