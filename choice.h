@@ -19,4 +19,8 @@ int update_choice (int choice, int length);
     choice and displaying their current choice.  */
 int choice_cycle (char* choices, int length, icon_t icon_array[]);
 
+int icon_button_toggle_pressed(void);
+
+void toggle_icon_state(void);
+
 #endif

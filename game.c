@@ -52,6 +52,9 @@ int main (void)
     initialise_game(PACER_RATE);
     char choices[3] = {'P', 'S', 'R'};
     icon_t icons_array[3] = {PAPER_ICON, SCISSORS_ICON, ROCK_ICON};
+    icon_t trophy_icon = TROPHY_ICON;
+    icon_t lose_icon = LOSE_ICON;
+    icon_t tie_icon = TIE_ICON;
     int choice_index = 0;
     run_intro (INTRO_MESSAGE);
 
@@ -83,17 +86,29 @@ int main (void)
         pio_output_low(LED1_PIO);
         ir_uart_putc(choices[choice_index]);
         if (current_char == choices[choice_index]) {
-            tinygl_text("tie");
-            
+            if (button_push_event_p(BUTTON1)) {
+                if (icon_button_toggle_pressed()) {display_bitmap(tie_icon);}
+                else tinygl_text("TIE");
+                toggle_icon_state();
+            }
         } else if (((choices[choice_index] == 'R') && (current_char == 'S')) || ((choices[choice_index] == 'P') && (current_char == 'R')) || ((choices[choice_index] == 'S') && (current_char == 'P'))) {
-            tinygl_text("you win");
+            if (button_push_event_p(BUTTON1)) {
+                if (icon_button_toggle_pressed()) {display_bitmap(trophy_icon);}
+                else tinygl_text("WIN");
+                toggle_icon_state();
+            }
         } else if (((choices[choice_index] == 'R') && (current_char == 'P')) || ((choices[choice_index] == 'P') && (current_char == 'S')) || ((choices[choice_index] == 'S') && (current_char == 'D'))) {
-            tinygl_text("you lose");
+            if (button_push_event_p(BUTTON1)) {
+                if (icon_button_toggle_pressed()) {display_bitmap(lose_icon);}
+                else tinygl_text("LOSE");
+                toggle_icon_state();
+            }
         }
             while (!navswitch_push_event_p(NAVSWITCH_PUSH))
             {
                 pacer_wait();
-                tinygl_update();
+                if (icon_button_toggle_pressed()) {tinygl_update();}
+                else {update_bitmap();}
                 navswitch_update();
             }
     }

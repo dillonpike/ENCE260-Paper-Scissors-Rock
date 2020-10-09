@@ -78,13 +78,19 @@ int choice_cycle (char* choices, int length, icon_t icon_array[])
                 buffer[1] = '\0';
                 tinygl_text(buffer);
                 button_pressed = 1;
-            }
-            
-
+            }    
         }
         if (button_pressed) {tinygl_update();}
         else {update_bitmap();}
         current_choice = update_choice (current_choice, length, choices, icon_array);
     }
     return current_choice;
+}
+
+int icon_button_toggle_pressed(void) {
+    return button_pressed;
+}
+
+void toggle_icon_state(void) {
+    button_pressed != button_pressed;
 }
