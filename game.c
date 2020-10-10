@@ -70,7 +70,6 @@ int main (void)
     game_init (PACER_RATE);
     char choices[CHOICE_NUM] = {PAPER, SCISSORS, ROCK};
     icon_t icons_array[CHOICE_NUM] = {PAPER_ICON, SCISSORS_ICON, ROCK_ICON};
-    int choice_index = 0;
     run_intro (INTRO_MESSAGE);
 
     while (1)
@@ -78,7 +77,8 @@ int main (void)
         pacer_wait ();
         tinygl_update ();
         navswitch_update ();
-
+        int choice_index = 0;
+        reset_bitmap();
         choice_index = choice_cycle(choices, CHOICE_NUM, icons_array);
 
         pio_output_high(LED1_PIO);
@@ -90,8 +90,13 @@ int main (void)
         ir_uart_putc(choices[choice_index]);
 
         int result = get_result(choices[choice_index], received_char);
+        wait_for_push();
+        pio_output_high(LED1_PIO);
+        pacer_wait();
+        print_results();
+        navswitch_update();
+        wait_for_push();
+        pio_output_low(LED1_PIO);
         tinygl_text_mode_set (TINYGL_TEXT_MODE_STEP);
-
-        wait_for_push ();
     }
 }

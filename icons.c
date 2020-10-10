@@ -9,6 +9,7 @@
 
 typedef uint8_t icon_t[5];
 
+icon_t paper_icon = PAPER_ICON;
 static icon_t current_bitmap = PAPER_ICON;
 static int current_col = 0;
 
@@ -29,4 +30,10 @@ void update_bitmap(void)
     ledmat_display_column(current_bitmap[current_col], current_col);
     current_col++;
     current_col = current_col % 5;
+}
+
+void reset_bitmap(void) {
+    for (int i = 0; i < 5; i++) {
+        current_bitmap[i] = paper_icon[i];
+    }
 }
