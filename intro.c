@@ -8,12 +8,13 @@
 #include "pacer.h"
 #include "tinygl.h"
 #include "navswitch.h"
+#include "message.h"
 
 /** Displays message until navswitch has been pushed.
     @param message message to display  */
 void run_intro (char* message)
 {
-    tinygl_text (message);
+    display_message (message);
 
     while (!navswitch_push_event_p (NAVSWITCH_PUSH))
     {

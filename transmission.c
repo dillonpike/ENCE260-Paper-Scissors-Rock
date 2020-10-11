@@ -8,6 +8,7 @@
 #include "ir_uart.h"
 #include "tinygl.h"
 #include "pacer.h"
+#include "game_constants.h"
 
 
 /** Empties the IR receiver buffer.  */
@@ -21,14 +22,11 @@ static void empty_buffer (void)
 
 
 /** Sends choice and updates display.
-    @param array of chars that represent the choices.
-    @param array index of the player's choice.  */
-void send_choice (char* choices, int choice_index)
+    @param char that represents the player's choice.  */
+void send_choice (char choice)
 {
     empty_buffer ();
-    ir_uart_putc(choices[choice_index]);
-    tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
-    tinygl_text("Sending...");
+    ir_uart_putc(choice);
 }
 
 
@@ -37,7 +35,7 @@ void send_choice (char* choices, int choice_index)
 char receive_choice (void)
 {
     char received_char = '\0';
-    while ((received_char != 'R') && (received_char != 'P') && (received_char != 'S'))
+    while ((received_char != ROCK) && (received_char != PAPER) && (received_char != SCISSORS))
     {
         pacer_wait ();
         tinygl_update ();

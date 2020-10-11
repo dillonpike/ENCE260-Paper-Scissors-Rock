@@ -10,9 +10,8 @@
 
 
 /** Sends choice and updates display.
-    @param array of chars that represent the choices.
-    @param array index of the player's choice.  */
-void send_choice (char* choices, int choice_index);
+    @param char that represents the player's choice.  */
+void send_choice (char choice);
 
 
 /** Waits until a valid choice has been received.
