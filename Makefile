@@ -1,7 +1,7 @@
 # File:   Makefile
-# Author: M. P. Hayes, UCECE
-# Date:   12 Sep 2010
-# Descr:  Makefile for game
+# Author: Bailey Lissington, Dillon Pike
+# Date:   08 Nov 2020
+# Descr:  Makefile for Paper, Scissors, Rock game
 
 # Definitions.
 CC = avr-gcc
@@ -16,13 +16,16 @@ all: game.out
 
 
 # Compile: create object files from C source files. Add to game.o line.
-game.o: game.c ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h intro.h choice.h
+game.o: game.c ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/button.h intro.h choice.h icons.h transmission.h result.h message.h game_constants.h hardware.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-intro.o: intro.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h
+intro.o: intro.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h message.h hardware.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-choice.o: choice.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h
+choice.o: choice.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h ../../drivers/button.h icons.h message.h hardware.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+button.o: ../../drivers/button.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 ir_uart.o: ../../drivers/avr/ir_uart.c ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/avr/timer0.h ../../drivers/avr/usart1.h
@@ -64,10 +67,26 @@ pacer.o: ../../utils/pacer.c ../../drivers/avr/system.h ../../drivers/avr/timer.
 tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/font.h ../../utils/tinygl.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+icons.o: icons.c ../../drivers/ledmat.c
+	$(CC) -c $(CFLAGS) $< -o $@
 
+transmission.o: transmission.c ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/avr/ir_uart.h game_constants.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+result.o: result.c ../../utils/tinygl.h message.h game_constants.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+message.o: message.c ../../utils/tinygl.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+hardware.o: hardware.c ../../drivers/navswitch.h ../../drivers/button.h ../../drivers/avr/pio.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+# ledmat: ../../ ../../drivers/avr/system.h ../../drivers/display.h ../../utils/font.h ../../utils/tinygl.h
+# 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o ir_uart.o usart1.o system.o pio.o prescale.o timer.o timer0.o display.o ledmat.o navswitch.o font.o pacer.o tinygl.o intro.o choice.o
+game.out: game.o ir_uart.o usart1.o system.o pio.o prescale.o timer.o timer0.o display.o ledmat.o navswitch.o font.o pacer.o tinygl.o intro.o choice.o icons.o transmission.o result.o button.o message.o hardware.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

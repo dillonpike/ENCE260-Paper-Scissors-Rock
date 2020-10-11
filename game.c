@@ -1,3 +1,10 @@
+/** @file   game.c
+    @author Bailey Lissington, Dillon Pike
+    @date   11 Oct 2020
+    @brief  Two player paper scissors rock game.
+*/
+
+
 #include "system.h"
 #include "pio.h"
 #include "pacer.h"
@@ -5,79 +12,94 @@
 #include "ir_uart.h"
 #include "tinygl.h"
 #include "../fonts/font5x7_1.h"
+#include "button.h"
 #include "intro.h"
 #include "choice.h"
+#include "ledmat.h"
+#include "icons.h"
+#include "transmission.h"
+#include "result.h"
+#include "message.h"
+#include "game_constants.h"
+#include "hardware.h"
 
-#define DISPLAY_TASK_RATE 250
+
+#define DISPLAY_RATE 250
 #define PACER_RATE 250
-#define MESSAGE_SPEED 20
 #define INTRO_MESSAGE "Push to start"
+#define WAIT_MESSAGE "Waiting..."
 
-static void display_task_init (void)
+
+/** Waits until the user has pushed the navswitch.  */
+static void wait_for_push (void)
 {
-    tinygl_init (DISPLAY_TASK_RATE);
+    /** Updates navswitch initially in case the navswitch was pushed
+        to trigger the previous event.  */
+    navswitch_update();
+    while (!navswitch_pushed ())
+    {
+        pacer_wait();
+        tinygl_update();
+        navswitch_update();
+    }
+}
+
+
+/** Initialises the LED matrix, sets the font, text speed, and mode.  */
+static void led_display_init (void)
+{
+    tinygl_init (DISPLAY_RATE);
     tinygl_font_set (&font5x7_1);
-    tinygl_text_speed_set (MESSAGE_SPEED);
-    tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
 }
 
-static void initialise_game(int pacer_rate)
+
+/** Initialise the game.
+    @param pacer_rate rate of pacer in Hz  */
+static void game_init (void)
 {
-    ir_uart_init();
-    system_init();
-    display_task_init();
-    navswitch_init();
-    pacer_init(pacer_rate);
-    pio_config_set(LED1_PIO, PIO_OUTPUT_LOW);
+    system_init ();
+    button_init();
+    ledmat_init ();
+    ir_uart_init ();
+    led_display_init ();
+    navswitch_init ();
+    pacer_init (PACER_RATE);
+    pio_config_set (LED1_PIO, PIO_OUTPUT_LOW);
 }
+
 
 int main (void)
 {
-    initialise_game(PACER_RATE);
-    char choices[3] = {'P', 'S', 'R'};
-    int choice_index = 0;
+    game_init ();
+    char choice_array[CHOICE_NUM] = {PAPER, SCISSORS, ROCK};
+    icon_t icons_array[CHOICE_NUM] = {PAPER_ICON, SCISSORS_ICON, ROCK_ICON};
     run_intro (INTRO_MESSAGE);
+
+    int choice_index = 0;
+    char choice = '\0';
+    char opponent_choice =  '\0';
 
     while (1)
     {
         pacer_wait ();
-        tinygl_update ();
         navswitch_update ();
+        reset_bitmap ();
 
-        choice_index = choice_cycle(choices, 3);
+        choice_index = choice_cycle (choice_array, CHOICE_NUM, icons_array);
+        choice = choice_array[choice_index];
 
-        ir_uart_putc(choices[choice_index]);
-        while(ir_uart_read_ready_p()) { //reads echoed bytes
-            ir_uart_getc();
-        }
-        pio_output_high(LED1_PIO);
-        tinygl_text("sending...");
-        char current_char = '\0';
-        while ((current_char != 'R') && (current_char != 'P') && (current_char != 'S'))
-        {
-            pacer_wait();
-            tinygl_update();
-            if(ir_uart_read_ready_p()) {
-                current_char = ir_uart_getc();
-            }
-            
-        }
-        navswitch_update();
-        pio_output_low(LED1_PIO);
-        ir_uart_putc(choices[choice_index]);
-        if (current_char == choices[choice_index]) {
-            tinygl_text("tie");
-            
-        } else if (((choices[choice_index] == 'R') && (current_char == 'S')) || ((choices[choice_index] == 'P') && (current_char == 'R')) || ((choices[choice_index] == 'S') && (current_char == 'P'))) {
-            tinygl_text("you win");
-        } else if (((choices[choice_index] == 'R') && (current_char == 'P')) || ((choices[choice_index] == 'P') && (current_char == 'S')) || ((choices[choice_index] == 'S') && (current_char == 'D'))) {
-            tinygl_text("you lose");
-        }
-            while (!navswitch_push_event_p(NAVSWITCH_PUSH))
-            {
-                pacer_wait();
-                tinygl_update();
-                navswitch_update();
-            }
+        led_on ();
+        send_choice (choice);
+        display_message (WAIT_MESSAGE);
+        opponent_choice = receive_choice ();
+        led_off ();
+
+        /** Send a second time to ensure other player receives it.  */
+        send_choice (choice);
+
+        calc_result (choice, opponent_choice);
+        wait_for_push ();
+        display_results ();
+        wait_for_push ();
     }
 }
