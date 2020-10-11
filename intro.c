@@ -17,6 +17,7 @@
 void run_intro (char* message)
 {
     display_message (message);
+    navswitch_update ();
     while (!navswitch_pushed ())
     {
         pacer_wait ();

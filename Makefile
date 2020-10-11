@@ -1,7 +1,7 @@
 # File:   Makefile
 # Author: Bailey Lissington, Dillon Pike
-# Date:   08 Nov 2020
-# Descr:  Makefile for Paper, Scissors, Rock game
+# Date:   12 Oct 2020
+# Descr:  Makefile for paper scissors rock game.
 
 # Definitions.
 CC = avr-gcc

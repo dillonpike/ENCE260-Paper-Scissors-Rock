@@ -27,7 +27,8 @@
 #define DISPLAY_RATE 250
 #define PACER_RATE 250
 #define MESSAGE_SPEED 20
-#define INTRO_MESSAGE "Push to start"
+#define INTRO_MESSAGE1 "Push to advance."
+#define INTRO_MESSAGE2 "Navswitch up/down to choose."
 #define WAIT_MESSAGE "Waiting..."
 
 
@@ -75,7 +76,8 @@ int main (void)
     game_init ();
     char choice_array[CHOICE_NUM] = {PAPER, SCISSORS, ROCK};
     icon_t icons_array[CHOICE_NUM] = {PAPER_ICON, SCISSORS_ICON, ROCK_ICON};
-    run_intro (INTRO_MESSAGE);
+    run_intro (INTRO_MESSAGE1);
+    run_intro (INTRO_MESSAGE2);
 
     int choice_index = 0;
     char choice = '\0';
