@@ -24,8 +24,9 @@
 #include "hardware.h"
 
 
-#define DISPLAY_RATE 250
-#define PACER_RATE 250
+/** High pacer rate to stop flicker.  */
+#define DISPLAY_RATE 2000
+#define PACER_RATE 2000
 #define MESSAGE_SPEED 20
 #define INTRO_MESSAGE1 "Push to advance."
 #define INTRO_MESSAGE2 "Navswitch up/down to choose."
