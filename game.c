@@ -24,8 +24,9 @@
 #include "hardware.h"
 
 
-#define DISPLAY_RATE 250
-#define PACER_RATE 250
+#define DISPLAY_RATE 500
+#define PACER_RATE 500
+#define MESSAGE_SPEED 200
 #define INTRO_MESSAGE "Push to start"
 #define WAIT_MESSAGE "Waiting..."
 
@@ -50,6 +51,7 @@ static void led_display_init (void)
 {
     tinygl_init (DISPLAY_RATE);
     tinygl_font_set (&font5x7_1);
+    tinygl_text_speed_set (MESSAGE_SPEED);
 }
 
 
