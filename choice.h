@@ -1,7 +1,8 @@
 /** @file   choice.h
     @author Bailey Lissington, Dillon Pike
-    @date   08 Nov 2020
-    @brief  Code corresponding to the choosing of rock, paper, scissors objects.
+    @date   11 Oct 2020
+    @brief  Functions that allow the player to choose from an array
+            and display the choices.
 */
 
 
@@ -12,14 +13,13 @@
 #include "icons.h"
 
 
-/** Updates value of choice depending on which way navswitch
-    has been pushed.  */
-int update_choice (int choice, int length);
-
-
 /** Loops through checking to see if the player has updated their
-    choice and displaying their current choice.  */
-int choice_cycle (char* choices, int length, icon_t icon_array[]);
+    choice and displaying their current choice.
+    @param  choice_array chars for the player to choose.
+    @param  length of choice_array.
+    @param  icons_array icons representing chars from choice_array.
+    @return index of the item from choice_array that was chosen.  */
+int choice_cycle (char* choice_array, int length, icon_t* icon_array);
 
 
 #endif

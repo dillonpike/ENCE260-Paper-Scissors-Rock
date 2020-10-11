@@ -1,7 +1,8 @@
 /** @file   icons.h
     @author Bailey Lissington, Dillon Pike
-    @date   08 Nov 2020
-    @brief  Code containing bitmaps of various icons and code necessary to display the icons.
+    @date   11 Oct 2020
+    @brief  Code containing bitmaps of various icons and functions
+            to display the icons.
 */
 
 
@@ -21,16 +22,17 @@ typedef uint8_t icon_t[COLUMN_NUM];
 /** Updates current_bitmap array if function is passed a different
     bitmap.
     @param bitmap 5x7 bitmap image to be displayed  */
-void display_bitmap(icon_t bitmap);
+void display_bitmap (icon_t bitmap);
 
 
 /** Turns off the previous column of the led matrix, then turns on the
     current column according to the bitmap, and advances to the next
     column.  */
-void update_bitmap(void);
+void update_bitmap (void);
 
 
-void reset_bitmap(void);
+/** Resets current_bitmap to the default bitmap.  */
+void reset_bitmap (void);
 
 
 #endif

@@ -1,8 +1,8 @@
-/** @file   icons.c
+/** @file   result.c
     @author Bailey Lissington, Dillon Pike
-    @date   08 Nov 2020
-    @brief  Contains functions that calculates the result of a game,
-            keeps track of the number of wins, and displays the number
+    @date   11 Oct 2020
+    @brief  Contains functions that calculate the result of a game,
+            keep track of the number of wins, and display the number
             of wins.
 */
 
@@ -18,8 +18,8 @@ static char wins_message[WINS_MESSAGE_LEN+1] = WINS_MESSAGE;
 
 
 /** Checks whether the player won, lost, or tied, and displays it.
-    @param char of the player's choice.
-    @param char of the opponent's choice.
+    @param choice char of the player's choice.
+    @param opponent_choice char of the opponent's choice.
     @return defined number depending on result.  */
 void calc_result (char choice, char opponent_choice)
 {
@@ -33,12 +33,6 @@ void calc_result (char choice, char opponent_choice)
     } else if (((choice == ROCK) && (opponent_choice == PAPER)) || ((choice == PAPER) && (opponent_choice == SCISSORS)) || ((choice == SCISSORS) && (opponent_choice == ROCK))) {
         display_message (LOSE_MESSAGE);
     }
-}
-
-
-uint8_t get_wins (void)
-{
-    return num_wins;
 }
 
 

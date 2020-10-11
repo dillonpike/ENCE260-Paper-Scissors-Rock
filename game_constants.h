@@ -1,6 +1,6 @@
 /** @file   game_constants.h
     @author Bailey Lissington, Dillon Pike
-    @date   08 Oct 2020
+    @date   11 Oct 2020
     @brief  Contains constants specific to paper, scissors, rock.
 */
 

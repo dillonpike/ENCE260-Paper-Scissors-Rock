@@ -1,6 +1,6 @@
 /** @file   game.c
     @author Bailey Lissington, Dillon Pike
-    @date   08 Oct 2020
+    @date   11 Oct 2020
     @brief  Two player paper scissors rock game.
 */
 
@@ -21,13 +21,13 @@
 #include "result.h"
 #include "message.h"
 #include "game_constants.h"
+#include "hardware.h"
 
 
 #define DISPLAY_RATE 250
 #define PACER_RATE 250
-#define MESSAGE_SPEED 20
 #define INTRO_MESSAGE "Push to start"
-#define SEND_MESSAGE "Sending..."
+#define WAIT_MESSAGE "Waiting..."
 
 
 /** Waits until the user has pushed the navswitch.  */
@@ -36,7 +36,7 @@ static void wait_for_push (void)
     /** Updates navswitch initially in case the navswitch was pushed
         to trigger the previous event.  */
     navswitch_update();
-    while (!navswitch_push_event_p(NAVSWITCH_PUSH))
+    while (!navswitch_pushed ())
     {
         pacer_wait();
         tinygl_update();
@@ -50,7 +50,6 @@ static void led_display_init (void)
 {
     tinygl_init (DISPLAY_RATE);
     tinygl_font_set (&font5x7_1);
-    tinygl_text_speed_set (MESSAGE_SPEED);
 }
 
 
@@ -75,32 +74,32 @@ int main (void)
     char choice_array[CHOICE_NUM] = {PAPER, SCISSORS, ROCK};
     icon_t icons_array[CHOICE_NUM] = {PAPER_ICON, SCISSORS_ICON, ROCK_ICON};
     run_intro (INTRO_MESSAGE);
+
+    int choice_index = 0;
     char choice = '\0';
+    char opponent_choice =  '\0';
 
     while (1)
     {
         pacer_wait ();
-        tinygl_update ();
         navswitch_update ();
+        reset_bitmap ();
 
-        int choice_index = 0;
-        reset_bitmap();
-
-        choice_index = choice_cycle(choice_array, CHOICE_NUM, icons_array);
+        choice_index = choice_cycle (choice_array, CHOICE_NUM, icons_array);
         choice = choice_array[choice_index];
 
-        pio_output_high(LED1_PIO);
+        led_on ();
         send_choice (choice);
-        display_message (SEND_MESSAGE);
-        char opponent_choice = receive_choice ();
-        pio_output_low(LED1_PIO);
+        display_message (WAIT_MESSAGE);
+        opponent_choice = receive_choice ();
+        led_off ();
 
-        navswitch_update();
-        ir_uart_putc(choice);
+        /** Send a second time to ensure other player receives it.  */
+        send_choice (choice);
 
-        calc_result(choice, opponent_choice);
-        wait_for_push();
-        display_results();
-        wait_for_push();
+        calc_result (choice, opponent_choice);
+        wait_for_push ();
+        display_results ();
+        wait_for_push ();
     }
 }

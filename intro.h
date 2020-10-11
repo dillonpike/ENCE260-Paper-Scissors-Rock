@@ -1,7 +1,7 @@
 /** @file   intro.h
     @author Bailey Lissington, Dillon Pike
-    @date   08 Nov 2020
-    @brief  Code containing intro sequence for a game.
+    @date   11 Oct 2020
+    @brief  Intro sequence for a game.
 */
 
 
@@ -10,7 +10,8 @@
 
 
 /** Displays message until navswitch has been pushed.
-    @param message message to display  */
+    @param message message to display.  */
 void run_intro (char* message);
+
 
 #endif

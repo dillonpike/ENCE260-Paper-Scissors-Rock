@@ -1,7 +1,7 @@
-/** @file   icons.c
+/** @file   transmission.h
     @author Bailey Lissington, Dillon Pike
-    @date   08 Nov 2020
-    @brief  Code containing functions to send and receive paper, scissors, rock choices.
+    @date   11 Oct 2020
+    @brief  Functions to send and receive paper, scissors, rock choices.
 */
 
 
@@ -10,7 +10,7 @@
 
 
 /** Sends choice and updates display.
-    @param char that represents the player's choice.  */
+    @param choice char that represents the player's choice.  */
 void send_choice (char choice);
 
 

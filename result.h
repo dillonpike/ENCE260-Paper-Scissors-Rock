@@ -1,7 +1,9 @@
 /** @file   result.h
     @author Bailey Lissington, Dillon Pike
-    @date   08 Nov 2020
-    @brief  Checks if the player won, lost, or tied.
+    @date   11 Oct 2020
+    @brief  Contains functions that calculate the result of a game,
+            keep track of the number of wins, and display the number
+            of wins.
 */
 
 
@@ -21,14 +23,14 @@
 
 
 /** Checks whether the player won, lost, or tied, and displays it.
-    @param char of the player's choice.
-    @param char of the opponent's choice.
+    @param choice char of the player's choice.
+    @param opponent_choice char of the opponent's choice.
     @return defined number depending on result.  */
-void calc_result(char choice, char received_choice);
+void calc_result (char choice, char received_choice);
 
 
 /** Displays how many wins the player has gotten.  */
-void display_results(void);
+void display_results (void);
 
 
 #endif
