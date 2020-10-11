@@ -24,9 +24,9 @@
 #include "hardware.h"
 
 
-#define DISPLAY_RATE 500
-#define PACER_RATE 500
-#define MESSAGE_SPEED 200
+#define DISPLAY_RATE 250
+#define PACER_RATE 250
+#define MESSAGE_SPEED 20
 #define INTRO_MESSAGE "Push to start"
 #define WAIT_MESSAGE "Waiting..."
 
