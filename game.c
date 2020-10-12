@@ -57,8 +57,7 @@ static void led_display_init (void)
 }
 
 
-/** Initialise the game.
-    @param pacer_rate rate of pacer in Hz  */
+/** Initialises the components of the game.  */
 static void game_init (void)
 {
     system_init ();
